@@ -1,93 +1,148 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
+import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 
 export const metadata = {
   title: "Kontak | PT Soka Utama Niaga",
-  description: "Hubungi PT Soka Utama Niaga",
+  description: "Informasi kontak dan lokasi PT Soka Utama Niaga",
 };
 
 export default function KontakPage() {
   return (
-    <main className="min-h-screen bg-white text-slate-900 font-sans flex flex-col pt-12 md:pt-0">
+    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans pt-24 flex flex-col">
       <Navbar />
       
-      {/* Split Screen Layout Container */}
-      <div className="flex-1 flex flex-col lg:flex-row min-h-[calc(100vh-80px)] mt-0 md:mt-12">
-        
-        {/* Left Side: Dark Contact Info Pane */}
-        <div className="lg:w-5/12 bg-[#070b19] text-white p-10 lg:p-20 flex flex-col justify-center relative overflow-hidden">
-          {/* Subtle Glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.15),transparent_60%)]"></div>
-          
-          <div className="relative z-10 w-full max-w-md mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-5xl font-black mb-6 tracking-tight leading-tight">Mari Mulai Kolaborasi!</h1>
-            <p className="text-slate-400 mb-12 text-lg leading-relaxed">Hubungi teknisi spesialis kami untuk mengonsultasikan kebutuhan pengadaan armada dan komponen suku cadang alat berat tingkat B2B Anda.</p>
-            
-            <div className="space-y-10">
-              <div className="flex gap-6 items-start">
-                <div className="mt-1 w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 shadow-lg shadow-blue-900/20">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 text-white">Kantor Pusat</h3>
-                  <p className="text-slate-400 leading-relaxed text-base">Komp. Ruko Pemuda PRB No 6<br/>Jl. Pemuda No 296, Pulo Gadung,<br/>Jakarta Timur 13220</p>
-                </div>
-              </div>
+      {/* Header Section */}
+      <section className="bg-white border-b border-slate-200 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+           <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">Hubungi Kami</h1>
+           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+             Tim kami siap membantu kebutuhan pengadaan alat berat dan suku cadang perusahaan Anda. Silakan hubungi kami melalui saluran di bawah ini.
+           </p>
+        </div>
+      </section>
 
-              <div className="flex gap-6 items-start">
-                <div className="mt-1 w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 shadow-lg shadow-blue-900/20">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+      {/* Main Content */}
+      <section className="py-16 md:py-24 flex-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            {/* Contact Card 1 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Kantor Pusat</h3>
+              <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                Jl. Swadaya Raya, Ruko Swadaya City Square Blok II No.11, RT.11/RW.2, Wijaya Kusuma, Kec. Grogol petamburan, Kota Jakarta Barat, 11460
+              </p>
+            </div>
+
+            {/* Contact Card 2 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                <Phone className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Telepon & Email</h3>
+              <ul className="space-y-3 text-slate-600">
+                <li className="flex items-center gap-3">
+                  <span className="font-medium shrink-0">Telp 1:</span> + (62) (021) 5646 149
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="font-medium shrink-0">Telp 2:</span> + (62) (021) 21254 409
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="font-medium shrink-0">WhatsApp:</span> 081372626818
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="font-medium shrink-0">Email:</span> info@sokautamaniaga.co.id
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Card 3 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                <Clock className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Jam Operasional</h3>
+              <ul className="space-y-2 text-slate-600">
+                <li className="flex justify-between items-center">
+                  <span>Senin - Jumat</span>
+                  <span className="font-medium text-slate-900">08:00 - 17:00</span>
+                </li>
+                <li className="flex justify-between items-center">
+                  <span>Sabtu</span>
+                  <span className="font-medium text-slate-900">08:00 - 17:00</span>
+                </li>
+                <li className="flex justify-between items-center text-red-600 font-medium pt-2 border-t border-slate-100 mt-2">
+                  <span>Minggu / Libur</span>
+                  <span>Tutup</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Standard Form Section */}
+            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200">
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">Kirim Pesan</h3>
+              <p className="text-slate-600 mb-8">Punya pertanyaan umum, penawaran kerja sama, atau butuh bantuan? Silakan isi formulir di bawah ini.</p>
+              
+              <form className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-bold text-slate-700">Nama Lengkap</label>
+                    <input type="text" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-slate-50" placeholder="John Doe" required/>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-bold text-slate-700">Alamat Email</label>
+                    <input type="email" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-slate-50" placeholder="john@example.com" required/>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 text-white">Jalur Resmi Akses Cepat</h3>
-                  <p className="text-slate-400 leading-relaxed text-base">021-4809224<br/>admin@sokautamaniaga.co.id</p>
+                
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-700">Subjek Pesan</label>
+                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-slate-50 text-slate-700">
+                    <option>Pertanyaan Umum</option>
+                    <option>Penawaran Kerja Sama / Promosi</option>
+                    <option>Layanan Pelanggan / Keluhan</option>
+                    <option>Lainnya</option>
+                  </select>
                 </div>
+                
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-700">Isi Pesan</label>
+                  <textarea rows={5} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none bg-slate-50" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
+                </div>
+                
+                <Button className="w-full py-6 text-base font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all flex items-center justify-center gap-2">
+                  <Send className="w-4 h-4" />
+                  Kirim Pesan
+                </Button>
+              </form>
+            </div>
+
+            {/* Map Section */}
+            <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-200 h-[600px] lg:h-auto">
+              <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden bg-slate-100">
+                <iframe 
+                  src="https://maps.google.com/maps?q=Jl.%20Swadaya%20Raya%2C%20Ruko%20Swadaya%20City%20Square%20Blok%20II%20No.11%2C%20RT.11%2FRW.2%2C%20Wijaya%20Kusuma%2C%20Kec.%20Grogol%20petamburan%2C%20Kota%20Jakarta%20Barat%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2011460&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Lokasi PT Soka Utama Niaga - Grogol Petamburan"
+                ></iframe>
               </div>
             </div>
           </div>
-        </div>
-        
-        {/* Right Side: White Professional Inquiry Form */}
-        <div className="lg:w-7/12 bg-white p-8 lg:p-20 flex items-center justify-center relative">
-          <div className="w-full max-w-xl mx-auto">
-            <h2 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">Kirim Permohonan Penawaran</h2>
-            <p className="text-slate-500 mb-10 text-lg">Lengkapi formulir komersial ini dan perwakilan penjualan kami akan menghubungi Bapak/Ibu sesegera mungkin.</p>
-            
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Nama Perusahaan / Instansi *</label>
-                  <input type="text" className="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all bg-slate-50 font-medium" placeholder="PT Contoh Konstruksi" required/>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Diwakili Oleh *</label>
-                  <input type="text" className="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all bg-slate-50 font-medium" placeholder="Budi Santoso" required/>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Alamat Email Perusahaan *</label>
-                <input type="email" className="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all bg-slate-50 font-medium" placeholder="pengadaan@contoh.com" required/>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Subjek Kebutuhan Pokok</label>
-                <input type="text" className="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all bg-slate-50 font-medium" placeholder="Pembelian Mobile Crane / Servis Berkala"/>
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Rincian Modifikasi / Pesan Spesifik *</label>
-                <textarea rows={5} className="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none bg-slate-50 font-medium" placeholder="Kami membutuhkan alat berat bertenaga spesifik untuk medan pertambangan..." required></textarea>
-              </div>
-              
-              <Button className="w-full py-7 text-lg font-bold bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-500/20 rounded-xl transition-all hover:-translate-y-1">
-                Kirim Pesan Penawaran Resmi
-              </Button>
-            </form>
-          </div>
         </div>
-      </div>
+      </section>
       
       <Footer />
     </main>

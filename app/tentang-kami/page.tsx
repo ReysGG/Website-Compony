@@ -61,7 +61,7 @@ export default function TentangKamiPage() {
                    Rekomendasi ukuran: 1200x900px
                  */}
                  <img 
-                   src="https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=1200&auto=format&fit=crop" 
+                   src="https://products.unitedtractors.com/wp-content/uploads/2023/09/2.-Banner-Landscape-01-290823-4-alat-yg-wajib-di-miliki-di-pertambangan-scaled.jpg" 
                    alt="Armada Alat Berat PT Soka Utama Niaga" 
                    className="w-full h-full object-cover"
                  />
