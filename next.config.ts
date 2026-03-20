@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
       { hostname: "psualatberat.com" },
       { hostname: "images.unsplash.com" },
       { hostname: "www.deere.com" },
-      { hostname: "products.unitedtractors.com" },
     ],
   },
 };
