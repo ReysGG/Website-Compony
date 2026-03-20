@@ -10,17 +10,17 @@ const partners = [
 
 export function Partnership() {
   return (
-    <section className="pt-6 pb-20 bg-background relative overflow-hidden border-b border-border">
-      {/* Gradien transisi dari Hero (#050814) ke putih — smooth visual bridge */}
-      <div className="absolute top-0 inset-x-0 h-24 bg-linear-to-b from-[#050814] to-transparent pointer-events-none z-10" />
+    <section className="pt-20 md:pt-24 pb-20 bg-background relative overflow-hidden border-b border-border">
+      {/* Removed the dark gradient from Hero so it doesn't bleed and overlap on mobile */}
 
       {/* Subtle Background Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.03),transparent_70%)] pointer-events-none" />
 
       <div className="max-w-[100vw] mx-auto relative z-10 px-0">
-        <div className="text-center mb-12 px-4">
+        <div className="text-center mb-10 md:mb-16 px-4">
           <BlurFade delay={0.1} inView>
-            <h2 className="text-sm md:text-base font-bold uppercase tracking-[0.3em] text-slate-400">
+            {/* Using text-[#0f172a] for high contrast and robust typography */}
+            <h2 className="text-sm md:text-base font-black uppercase tracking-[0.3em] text-[#0f172a]">
               Pilihan Manufaktur Terkemuka
             </h2>
           </BlurFade>
