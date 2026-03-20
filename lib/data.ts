@@ -4,6 +4,7 @@ export type Product = {
   title: string;
   description: string;
   image: string;
+  category?: string;
   features: string[];
   specifications: Record<string, string>;
 };
@@ -15,6 +16,7 @@ export const products: Product[] = [
     title: "Truck / Mobile Crane",
     description: "Mobile Crane berkinerja tinggi yang dirancang untuk mobilitas jalan raya dan operasi pengangkatan berat di berbagai lokasi konstruksi.",
     image: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=1200&auto=format&fit=crop",
+    category: "Mobile Crane",
     features: [
       "Mobilitas tinggi di jalan raya maupun area proyek",
       "Kapasitas angkat bervariasi mulai dari 10 Ton hingga 100 Ton",
@@ -34,6 +36,7 @@ export const products: Product[] = [
     title: "Rough Terrain Crane",
     description: "Crane andalan untuk medan ekstrem dan tidak rata. Memiliki handling superior dan efisiensi ruang operasi yang sangat baik.",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dbd?q=80&w=1200&auto=format&fit=crop",
+    category: "Rough Terrain",
     features: [
       "Desain ringkas untuk manuver di area sempit",
       "Roda ban khusus untuk medan off-road (berlumpur/berbatu)",
@@ -53,6 +56,7 @@ export const products: Product[] = [
     title: "Crawler Crane",
     description: "Alat angkat berat stasioner dengan kapasitas masif. Cocok untuk proyek infrastruktur berskala raksasa jangka panjang.",
     image: "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?q=80&w=1200&auto=format&fit=crop",
+    category: "Crawler Crane",
     features: [
       "Kapasitas beban raksasa melebihi 200 Ton",
       "Distribusi bobot sempurna melalui track roda rantai",

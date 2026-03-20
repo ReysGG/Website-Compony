@@ -10,15 +10,17 @@ const partners = [
 
 export function Partnership() {
   return (
-    <section className="py-20 bg-white relative overflow-hidden border-y border-slate-200">
-      
+    <section className="pt-10 pb-20 bg-background relative overflow-hidden border-b border-border">
+      {/* Removed the dark gradient from Hero completely so no shadows overlap the text */}
+
       {/* Subtle Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.03),transparent_70%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.03),transparent_70%)] pointer-events-none" />
 
       <div className="max-w-[100vw] mx-auto relative z-10 px-0">
-        <div className="text-center mb-12 px-4">
+        <div className="text-center mb-16 px-4">
           <BlurFade delay={0.1} inView>
-            <h2 className="text-sm md:text-base font-bold uppercase tracking-[0.3em] text-slate-400">
+            {/* Changed from slate-400 to text-[#0f172a] for high contrast on light bg */}
+            <h2 className="text-sm md:text-base font-black uppercase tracking-[0.3em] text-[#0f172a]">
               Pilihan Manufaktur Terkemuka
             </h2>
           </BlurFade>
@@ -29,7 +31,7 @@ export function Partnership() {
             <Marquee pauseOnHover className="[--duration:30s] [--gap:5rem] sm:[--gap:8rem] py-4" repeat={5}>
               {partners.map((partner, idx) => (
                 <div key={idx} className="flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
-                  {partner.name === "KATO" && <span className="text-5xl md:text-6xl font-black tracking-tighter text-blue-700">KATO</span>}
+                  {partner.name === "KATO" && <span className="text-5xl md:text-6xl font-black tracking-tighter text-yellow-500">KATO</span>}
                   {partner.name === "KOBELCO" && <span className="text-5xl md:text-6xl font-black tracking-tight text-[#006C9B]">KOBELCO</span>}
                   {partner.name === "TADANO" && (
                     <div className="flex items-center">
@@ -45,7 +47,7 @@ export function Partnership() {
                       <svg className="w-10 h-10 text-red-600" viewBox="0 0 24 24" fill="currentColor">
                         <polygon points="12,2 22,12 12,22 2,12" />
                       </svg>
-                      <span className="text-5xl md:text-6xl font-black text-slate-800">Sumitomo</span>
+                      <span className="text-5xl md:text-6xl font-black text-foreground">Sumitomo</span>
                     </div>
                   )}
                 </div>

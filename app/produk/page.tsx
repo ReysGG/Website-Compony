@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function ProdukPage() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans pt-24">
+    <main className="min-h-screen bg-card text-foreground font-sans pt-24">
       <Navbar />
       <div className="pb-12">
         <Products />

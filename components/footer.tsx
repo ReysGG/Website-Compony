@@ -1,19 +1,20 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-[#070b19] text-white pt-20 pb-10 border-t-4 border-blue-600 relative overflow-hidden">
+    <footer className="bg-[#0f172a] text-white pt-20 pb-10 relative overflow-hidden">
       
       {/* Background Dotted Map Element */}
       <div className="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none hidden lg:block">
         <div className="w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_1px,transparent_1px)] bg-[size:12px_12px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]"></div>
         {/* Fake Blue Pins */}
-        <div className="absolute top-[30%] left-[20%] w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]"></div>
-        <div className="absolute top-[45%] left-[30%] w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]"></div>
-        <div className="absolute top-[25%] left-[45%] w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]"></div>
-        <div className="absolute top-[40%] left-[65%] w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]"></div>
-        <div className="absolute top-[60%] left-[75%] w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,1)]"></div>
+        <div className="absolute top-[30%] left-[20%] w-1.5 h-1.5 bg-[#2563eb] rounded-full shadow-[0_0_10px_rgba(37,99,235,1)]"></div>
+        <div className="absolute top-[45%] left-[30%] w-1.5 h-1.5 bg-[#2563eb] rounded-full shadow-[0_0_10px_rgba(37,99,235,1)]"></div>
+        <div className="absolute top-[25%] left-[45%] w-1.5 h-1.5 bg-[#2563eb] rounded-full shadow-[0_0_10px_rgba(37,99,235,1)]"></div>
+        <div className="absolute top-[40%] left-[65%] w-1.5 h-1.5 bg-[#2563eb] rounded-full shadow-[0_0_10px_rgba(37,99,235,1)]"></div>
+        <div className="absolute top-[60%] left-[75%] w-1.5 h-1.5 bg-[#2563eb] rounded-full shadow-[0_0_10px_rgba(37,99,235,1)]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -22,9 +23,11 @@ export function Footer() {
           {/* Column 1: Logo & Contact */}
           <div className="space-y-6 lg:pr-8">
             <div className="mb-6 bg-white/95 p-3 rounded-xl shadow-lg inline-block">
-              <img 
+              <Image 
                 src="https://www.sokautamaniaga.co.id/wp-content/uploads/2021/11/logo-soka-240.png" 
                 alt="Logo PT Soka Utama Niaga" 
+                width={150}
+                height={48}
                 className="h-10 md:h-12 w-auto object-contain"
               />
             </div>
@@ -56,7 +59,7 @@ export function Footer() {
               </div>
             </div>
           </div>
-
+          
           {/* Column 2: Produk */}
           <div>
              <h3 className="text-lg font-bold text-white mb-6">Produk</h3>

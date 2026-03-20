@@ -12,12 +12,14 @@ import { Satisfaction } from "@/components/satisfaction";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-slate-900 selection:bg-blue-600/30 font-sans">
+    <main className="min-h-screen bg-background text-foreground selection:bg-accent/20 font-sans">
       <Navbar />
       <Hero />
       <Partnership />
-      <Intro />
       <Stats />
+      <Intro />
+      <History />
+      <VisiMisi />
       <Products />
       <Satisfaction />
       <Director />
