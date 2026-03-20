@@ -15,12 +15,12 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground selection:bg-accent/20 font-sans">
       <Navbar />
       <Hero />
-      <Partnership />
-      <Stats />
       <Intro />
+      <Partnership />
+      <Products />
+      <Stats />
       <History />
       <VisiMisi />
-      <Products />
       <Satisfaction />
       <Director />
       <Footer />
