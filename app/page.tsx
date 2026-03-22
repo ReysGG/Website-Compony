@@ -1,3 +1,4 @@
+import { auth } from "@clerk/nextjs/server";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { Intro } from "@/components/intro";
@@ -10,10 +11,21 @@ import { Stats } from "@/components/stats";
 import { Partnership } from "@/components/partnership";
 import { Satisfaction } from "@/components/satisfaction";
 
-export default function Home() {
+export default async function Home() {
+  const { sessionClaims } = await auth();
+  const isAdmin = (sessionClaims?.metadata as any)?.role === 'admin';
+
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-accent/20 font-sans">
       <Navbar />
+      
+      {/* Admin Indicator (Hanya terlihat oleh Admin) */}
+      {isAdmin && (
+        <div className="bg-amber-500/10 border-b border-amber-500/20 text-amber-500 text-[10px] font-bold uppercase tracking-widest text-center py-2 mt-16 lg:mt-20">
+          Mode Admin Aktif: Anda memiliki akses penuh ke fitur manajemen.
+        </div>
+      )}
+
       <Hero />
       <Intro />
       <Partnership />

@@ -1,0 +1,100 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model company_profile {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String
+  tagline      String?
+  description  String?
+  address      String?
+  phone        String?
+  email        String?
+  logo_url     String?
+  social_media Json?     @default("{}")
+  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model director_message {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  director_name    String
+  role             String?   @default("Direktur Utama")
+  image_url        String?
+  quote_paragraphs String[]  @default([])
+  year             Int?
+  stats            Json?     @default("[]")
+  is_active        Boolean?  @default(true)
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model milestones {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  year        String
+  title       String
+  description String?
+  icon_name   String?
+  is_current  Boolean?  @default(false)
+  order_index Int?      @default(0)
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model partners {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  logo_url    String
+  order_index Int?   @default(0)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model products {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug           String    @unique
+  title          String
+  description    String?
+  image_url      String?
+  category       String?
+  features       String[]  @default([])
+  specifications Json?     @default("{}")
+  order_index    Int?      @default(0)
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stats {
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  label_prefix String?
+  label_main   String
+  value        Int
+  suffix       String?
+  order_index  Int?    @default(0)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model testimonials {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  role        String?
+  content     String
+  rating      Int?      @default(5)
+  image_url   String?
+  is_featured Boolean?  @default(true)
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vision_mission {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type        String?
+  content     String
+  order_index Int?    @default(0)
+}
