@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function EditMilestonePage({ params }: { params: { id: string } }) {
+export default async function EditMilestonePage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const milestone = await prisma.milestones.findUnique({
     where: { id: params.id },
   });

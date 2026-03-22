@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function EditVisionMissionPage({ params }: { params: { id: string } }) {
+export default async function EditVisionMissionPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const item = await prisma.vision_mission.findUnique({
     where: { id: params.id },
   });

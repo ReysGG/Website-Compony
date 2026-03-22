@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function EditPartnerPage({ params }: { params: { id: string } }) {
+export default async function EditPartnerPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const partner = await prisma.partners.findUnique({
     where: { id: params.id },
   });
