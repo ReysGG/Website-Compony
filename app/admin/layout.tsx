@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
@@ -46,28 +47,51 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#f8fafc] font-sans antialiased text-slate-900">
-      {/* Sidebar Navigation */}
+    <div className="flex min-h-screen bg-[#f7f9fb] font-sans antialiased text-[#191c1e]">
+      {/* SideNavBar (Authority Source) */}
       <AdminSidebar />
       
-      {/* Main Content Area */}
-      <div className="flex-1 lg:ml-64 min-h-screen flex flex-col">
-        {/* Top Header Placeholder (Bisa ditambah breadcrumbs atau profile di sini nanti) */}
-        <header className="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-30 px-8 flex items-center justify-between lg:hidden">
-          <span className="font-black text-[#2563eb] tracking-tighter text-xl">SOKA ADMIN</span>
-          {/* Mobile menu trigger bisa diletakkan di sini */}
+      {/* Main Content Shell */}
+      <main className="lg:ml-64 flex-1 min-h-screen flex flex-col">
+        {/* TopNavBar */}
+        <header className="fixed top-0 right-0 lg:w-[calc(100%-16rem)] w-full z-30 bg-white/80 backdrop-blur-xl flex justify-between items-center h-16 px-8 shadow-sm border-b border-slate-200">
+          <div className="flex items-center gap-6">
+            <div className="relative hidden md:block">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              </span>
+              <input 
+                className="pl-10 pr-4 py-1.5 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500/20 w-64" 
+                placeholder="Search data..." 
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="p-2 text-slate-500 hover:text-blue-600 transition-colors relative">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden border border-blue-200">
+               <UserButton appearance={{ elements: { userButtonAvatarBox: "h-8 w-8" } }} />
+            </div>
+          </div>
         </header>
 
-        <main className="p-4 md:p-8 lg:p-10 flex-grow">
-          <div className="max-w-7xl mx-auto space-y-8">
-            {children}
-          </div>
-        </main>
+        {/* Content Canvas */}
+        <div className="pt-24 px-6 md:px-10 pb-12">
+          {children}
+        </div>
 
-        <footer className="py-6 px-8 border-t border-slate-200 text-center text-slate-400 text-xs">
-          &copy; {new Date().getFullYear()} PT Soka Utama Niaga. Managed by Admin Dashboard.
+        <footer className="mt-auto py-6 px-10 border-t border-slate-200 text-slate-400 text-xs flex justify-between items-center bg-white/50">
+          <span>&copy; {new Date().getFullYear()} PT Soka Utama Niaga. Executive Portal.</span>
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-blue-600">Privacy Policy</a>
+            <a href="#" className="hover:text-blue-600">Terms of Service</a>
+          </div>
         </footer>
-      </div>
+      </main>
     </div>
   );
 }
