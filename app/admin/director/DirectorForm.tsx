@@ -4,8 +4,9 @@ import { useState } from "react";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { updateDirectorMessage } from "./actions";
 import { Loader2, Save } from "lucide-react";
+import { director_message } from "@/lib/generated/prisma";
 
-export function DirectorForm({ initialData }: { initialData: any }) {
+export function DirectorForm({ initialData }: { initialData: director_message }) {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 

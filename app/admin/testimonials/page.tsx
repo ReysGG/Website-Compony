@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Edit, Plus, Star, CheckCircle2 } from "lucide-react";
 import { DeleteTestimonialButton } from "./DeleteTestimonialButton";
+import { testimonials } from "@/lib/generated/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -49,7 +50,7 @@ export default async function AdminTestimonialsPage() {
                   </td>
                 </tr>
               ) : (
-                testimonials.map((testimonial: any) => (
+                testimonials.map((testimonial: testimonials) => (
                   <tr key={testimonial.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">

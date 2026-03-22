@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Edit, Plus, Target, Flag } from "lucide-react";
 import { DeleteVisionMissionButton } from "./DeleteVisionMissionButton";
+import { vision_mission } from "@/lib/generated/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -50,7 +51,7 @@ export default async function AdminVisionMissionPage() {
                   </td>
                 </tr>
               ) : (
-                data.map((item: any) => (
+                data.map((item: vision_mission) => (
                   <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
                       {item.type === "vision" ? (

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Edit, Plus, Package } from "lucide-react";
 import { DeleteProductButton } from "./DeleteProductButton";
+import { products } from "@/lib/generated/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -85,7 +86,7 @@ export default async function AdminProductsPage() {
                   </td>
                 </tr>
               ) : (
-                products.map((product: any) => (
+                products.map((product: products) => (
                   <tr
                     key={product.id}
                     className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Edit, Plus, CheckCircle2, XCircle } from "lucide-react";
 import { DeletePartnerButton } from "./DeletePartnerButton";
+import { partners } from "@/lib/generated/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +48,7 @@ export default async function AdminPartnersPage() {
                   </td>
                 </tr>
               ) : (
-                partners.map((partner: any) => (
+                partners.map((partner: partners) => (
                   <tr key={partner.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">

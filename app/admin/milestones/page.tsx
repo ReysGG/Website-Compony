@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Edit, Plus, CheckCircle2, Clock } from "lucide-react";
 import { DeleteMilestoneButton } from "./DeleteMilestoneButton";
+import { milestones } from "@/lib/generated/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export default async function AdminMilestonesPage() {
     orderBy: { order_index: "asc" },
   });
 
-  const currentMilestone = milestones.find((m) => m.is_current);
+  const currentMilestone = milestones.find((m: milestones) => m.is_current);
 
   return (
     <div className="space-y-6">
@@ -89,7 +90,7 @@ export default async function AdminMilestonesPage() {
                   </td>
                 </tr>
               ) : (
-                milestones.map((milestone: any) => (
+                milestones.map((milestone: milestones) => (
                   <tr
                     key={milestone.id}
                     className={`hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group ${
