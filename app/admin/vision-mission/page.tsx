@@ -50,7 +50,7 @@ export default async function AdminVisionMissionPage() {
                   </td>
                 </tr>
               ) : (
-                data.map((item) => (
+                data.map((item: any) => (
                   <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
                       {item.type === "vision" ? (

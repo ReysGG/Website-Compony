@@ -49,7 +49,7 @@ export default async function AdminTestimonialsPage() {
                   </td>
                 </tr>
               ) : (
-                testimonials.map((testimonial) => (
+                testimonials.map((testimonial: any) => (
                   <tr key={testimonial.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">

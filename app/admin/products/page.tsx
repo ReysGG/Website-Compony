@@ -85,7 +85,7 @@ export default async function AdminProductsPage() {
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
+                products.map((product: any) => (
                   <tr
                     key={product.id}
                     className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group"
