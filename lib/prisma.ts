@@ -11,9 +11,9 @@ const prismaClientSingleton = () => {
 
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    // Serverless: setiap function invocation isolated → pool kecil
-    // Free tier Supabase limit ~60 connections
-    max: 2,
+    // Transaction Pooler: tiap query pakai 1 koneksi lalu langsung dilepas
+    // max:1 cukup untuk serverless — tidak perlu hold multiple connections
+    max: 1,
     idleTimeoutMillis: 10000,
     connectionTimeoutMillis: 5000,
     ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
