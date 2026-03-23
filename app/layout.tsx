@@ -6,11 +6,13 @@ import "./globals.css";
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +30,7 @@ export default function RootLayout({
       lang="id"
       className={`${manrope.variable} ${inter.variable} h-full antialiased scroll-smooth`}
     >
-      <body className={`${inter.className} min-h-full flex flex-col`}>
+      <body className="min-h-full flex flex-col font-sans">
         <ClerkProvider>
           {children}
         </ClerkProvider>

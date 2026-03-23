@@ -2,15 +2,20 @@ import { prisma } from "@/lib/prisma";
 import { ProductForm } from "../ProductForm";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+
 
 export default async function EditProductPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = await props.params;
-  const product = await prisma.products.findUnique({
-    where: { id: params.id },
-  });
+  const [product, categories] = await Promise.all([
+    prisma.products.findUnique({
+      where: { id: params.id },
+    }),
+    prisma.categories.findMany({
+      orderBy: { name: "asc" }
+    })
+  ]);
 
   if (!product) notFound();
 
@@ -29,7 +34,7 @@ export default async function EditProductPage(props: {
     // ✅ max-w-5xl biar grid 2 kolom form tidak kepepet
     // ✅ Hapus header — ProductForm sudah punya header sendiri
     <div className="max-w-screen mx-auto">
-      <ProductForm initialData={initialData} />
+      <ProductForm initialData={initialData} categories={categories} />
     </div>
   );
 }

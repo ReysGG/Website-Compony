@@ -1,39 +1,24 @@
-"use client";
-
 import { BlurFade } from "@/components/ui/blur-fade";
+import { getPublicTestimonials } from "@/lib/queries/public-cache";
 import { Quote } from "lucide-react";
+import Image from "next/image";
 
-const testimonials = [
-  {
-    quote:
-      "PT Soka Utama Niaga sangat profesional dalam pengiriman unit crane. Tepat waktu, kondisi sempurna, dan after-sales service yang responsif. Sudah 3 kali order dan tidak pernah mengecewakan.",
-    author: "Bambang Setiawan",
-    role: "Project Manager",
-    company: "PT Waskita Konstruksi",
-    initial: "BS",
-  },
-  {
-    quote:
-      "Kami percayakan kebutuhan alat berat proyek infrastruktur kami kepada Soka Utama. Kualitas unit dan dukungan teknis mereka benar-benar jadi nilai lebih yang kami butuhkan di lapangan.",
-    author: "Hendra Kurniawan",
-    role: "Kepala Divisi Pengadaan",
-    company: "PT Adhi Karya",
-    initial: "HK",
-  },
-  {
-    quote:
-      "Layanan konsultasi pemilihan unit sangat membantu. Tim Soka benar-benar paham kebutuhan industri tambang. Harga kompetitif dan garansi suku cadang memberikan ketenangan pikiran.",
-    author: "Rudi Hartono",
-    role: "Site Supervisor",
-    company: "PT Freeport Indonesia",
-    initial: "RH",
-  },
-];
+/** Makin panjang konten, makin kecil font */
+function getQuoteSize(content: string): string {
+  const len = content.length;
+  if (len < 80)  return "text-lg leading-relaxed";
+  if (len < 160) return "text-base leading-relaxed";
+  if (len < 260) return "text-sm leading-relaxed";
+  return "text-xs leading-relaxed";
+}
 
-export function Satisfaction() {
+export async function Satisfaction() {
+  const testimonials = await getPublicTestimonials();
+
+  if (testimonials.length === 0) return null;
+
   return (
     <section className="py-24 bg-slate-50 relative overflow-hidden">
-      {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
@@ -58,58 +43,55 @@ export function Satisfaction() {
           </div>
         </BlurFade>
 
-        {/* Testimonial Cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((item, idx) => (
-            <BlurFade key={idx} delay={0.2 + idx * 0.15} inView>
-              <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm p-8 hover:shadow-xl hover:-translate-y-1.5 hover:border-[#2563eb]/30 transition-all duration-300 group">
+        {/* Cards */}
+        <div className="flex flex-col gap-6 max-w-3xl mx-auto">
+          {testimonials.map((item, idx) => {
+            const initial = item.name
+              .split(" ")
+              .map((w) => w[0])
+              .slice(0, 2)
+              .join("")
+              .toUpperCase();
 
-                {/* Quote icon */}
-                <Quote className="w-8 h-8 text-[#2563eb]/30 mb-6 group-hover:text-[#2563eb]/60 transition-colors duration-300" />
+            return (
+              <BlurFade key={item.id} delay={0.2 + idx * 0.1} inView>
+                <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm p-8 hover:shadow-xl hover:-translate-y-1.5 hover:border-[#2563eb]/30 transition-all duration-300 group">
 
-                {/* Quote text */}
-                <p className="text-slate-700 leading-relaxed text-base font-medium flex-1 mb-8">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
+                  <Quote className="w-8 h-8 text-[#2563eb]/30 mb-6 group-hover:text-[#2563eb]/60 transition-colors duration-300" />
 
-                {/* Author */}
-                <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
-                  <div className="w-11 h-11 rounded-full bg-[#0f172a] flex items-center justify-center shrink-0">
-                    <span className="text-xs font-black text-white">{item.initial}</span>
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-[#0f172a]">{item.author}</div>
-                    <div className="text-xs text-slate-500 mt-0.5">
-                      {item.role} · {item.company}
+                  <p className={`text-slate-700 font-medium flex-1 mb-8 wrap-break-word ${getQuoteSize(item.content)}`}>
+                    &ldquo;{item.content}&rdquo;
+                  </p>
+
+                  <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
+                    {item.image_url ? (
+                      <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-slate-200">
+                        <Image
+                          src={item.image_url}
+                          alt={item.name}
+                          fill
+                          sizes="44px"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-11 h-11 rounded-full bg-[#0f172a] flex items-center justify-center shrink-0">
+                        <span className="text-xs font-black text-white">{initial}</span>
+                      </div>
+                    )}
+                    <div>
+                      <div className="text-sm font-bold text-[#0f172a]">{item.name}</div>
+                      {item.role && (
+                        <div className="text-xs text-slate-500 mt-0.5">{item.role}</div>
+                      )}
                     </div>
                   </div>
+
                 </div>
-
-              </div>
-            </BlurFade>
-          ))}
+              </BlurFade>
+            );
+          })}
         </div>
-
-        {/* Bottom trust strip */}
-        <BlurFade delay={0.6} inView>
-          <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-8 text-center">
-            {[
-              { value: "100%", label: "Pengiriman Tepat Waktu" },
-              { value: "98%", label: "Kepuasan Konsumen" },
-              { value: "100%", label: "Repeat Order" },
-            ].map((stat, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <span className="text-3xl font-black text-[#2563eb]">{stat.value}</span>
-                <span className="text-sm text-slate-500 font-medium text-left leading-tight max-w-[100px]">
-                  {stat.label}
-                </span>
-                {i < 2 && (
-                  <div className="hidden sm:block w-px h-10 bg-slate-200 ml-3" />
-                )}
-              </div>
-            ))}
-          </div>
-        </BlurFade>
 
       </div>
     </section>

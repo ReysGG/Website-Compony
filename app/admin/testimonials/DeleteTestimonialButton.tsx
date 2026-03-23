@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Trash2, Loader2 } from "lucide-react";
-import { deleteTestimonial } from "./actions";
+import { deleteTestimonial } from "@/lib/actions/testimonial-actions";
 
 export function DeleteTestimonialButton({ id, name }: { id: string, name: string }) {
   const [isPending, startTransition] = useTransition();

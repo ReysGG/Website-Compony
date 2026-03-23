@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Trash2, Loader2 } from "lucide-react";
-import { deleteMilestone } from "./actions";
+import { deleteMilestone } from "@/lib/actions/milestone-actions";
 
 export function DeleteMilestoneButton({ id, title }: { id: string, title: string }) {
   const [isPending, startTransition] = useTransition();

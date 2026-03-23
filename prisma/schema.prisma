@@ -44,6 +44,8 @@ model milestones {
   is_current  Boolean?  @default(false)
   order_index Int?      @default(0)
   created_at  DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -55,17 +57,33 @@ model partners {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model categories {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  products    products[]
+  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
+}
+
 model products {
-  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  slug           String    @unique
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug           String      @unique
   title          String
   description    String?
   image_url      String?
-  category       String?
-  features       String[]  @default([])
-  specifications Json?     @default("{}")
-  order_index    Int?      @default(0)
-  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  category_old   String?     @map("category") // Simpan yang lama
+  category_id    String?     @db.Uuid
+  category       categories? @relation(fields: [category_id], references: [id])
+  features       String[]    @default([])
+  specifications Json?       @default("{}")
+  order_index    Int?        @default(0)
+  created_at     DateTime?   @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
+  @@index([category_id])
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -88,6 +106,8 @@ model testimonials {
   image_url   String?
   is_featured Boolean?  @default(true)
   created_at  DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

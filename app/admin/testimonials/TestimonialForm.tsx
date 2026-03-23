@@ -3,13 +3,63 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { createTestimonial, updateTestimonial } from "./actions";
-import { Loader2, Save, ArrowLeft } from "lucide-react";
+import { createTestimonial, updateTestimonial } from "@/lib/actions/testimonial-actions";
+import { Loader2, Save, ArrowLeft, CheckCircle2, AlertCircle, Star } from "lucide-react";
 import Link from "next/link";
+import { testimonials as TestimonialType } from "@prisma/client";
 
-export function TestimonialForm({ initialData }: { initialData?: any }) {
+const inputCls =
+  "w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition";
+
+function Field({
+  label,
+  hint,
+  required,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </label>
+      {children}
+      {hint && <p className="text-[11px] text-slate-400">{hint}</p>}
+    </div>
+  );
+}
+
+function Panel({
+  title,
+  action,
+  children,
+}: {
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-700">
+        <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+          {title}
+        </span>
+        {action}
+      </div>
+      <div className="p-5 flex flex-col gap-4">{children}</div>
+    </div>
+  );
+}
+
+export function TestimonialForm({ initialData }: { initialData?: TestimonialType }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const isEdit = !!initialData?.id;
@@ -23,8 +73,13 @@ export function TestimonialForm({ initialData }: { initialData?: any }) {
     is_featured: initialData?.is_featured ?? true,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const value = e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const value =
+      e.target.type === "checkbox"
+        ? (e.target as HTMLInputElement).checked
+        : e.target.value;
     setFormData((prev) => ({ ...prev, [e.target.name]: value }));
   };
 
@@ -32,136 +87,179 @@ export function TestimonialForm({ initialData }: { initialData?: any }) {
     e.preventDefault();
     setIsSaving(true);
     setError("");
+    setSuccess(false);
 
     try {
-      let res;
-      if (isEdit) {
-        res = await updateTestimonial(initialData.id, formData);
-      } else {
-        res = await createTestimonial(formData);
-      }
+      const res = isEdit
+        ? await updateTestimonial(initialData!.id, formData)
+        : await createTestimonial(formData);
 
       if (res.success) {
-        router.push("/admin/testimonials");
-        router.refresh();
+        setSuccess(true);
+        setTimeout(() => {
+          router.push("/admin/testimonials");
+          router.refresh();
+        }, 800);
       } else {
-        setError(res.error || "Gagal menyimpan data testimonial");
+        setError(res.error || "Gagal menyimpan data testimonial.");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    } catch (err: any) {
-      setError("Terjadi kesalahan sistem");
+    } catch {
+      setError("Terjadi kesalahan sistem. Silakan coba lagi.");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-8">
-      <div className="flex items-center justify-between border-b border-slate-100 pb-6">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/testimonials" className="p-2 hover:bg-slate-100 rounded-full transition text-slate-500">
-            <ArrowLeft className="w-5 h-5" />
+    <form onSubmit={onSubmit} className="space-y-6">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/testimonials"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-600 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex-shrink-0"
+          >
+            <ArrowLeft className="w-4 h-4" />
           </Link>
-          <h2 className="text-xl font-bold text-slate-800">
-            {isEdit ? "Edit Testimonial" : "Tambah Testimonial Baru"}
-          </h2>
+          <div>
+            <nav className="text-[11px] uppercase tracking-widest text-slate-400 font-medium mb-1">
+              Admin / Testimonials /{" "}
+              <span className="text-slate-700 dark:text-slate-200">
+                {isEdit ? "Edit" : "Tambah"}
+              </span>
+            </nav>
+            <h1 className="text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+              {isEdit ? "Edit Testimoni" : "Tambah Testimoni"}
+            </h1>
+          </div>
         </div>
+
         <button
           type="submit"
-          disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-[#2563eb] text-white rounded-lg font-bold hover:bg-blue-700 transition"
+          disabled={isSaving || success}
+          className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all self-start sm:self-auto flex-shrink-0 active:scale-95 disabled:opacity-70 ${
+            success
+              ? "bg-emerald-600 text-white"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
         >
-          {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? "Simpan Perubahan" : "Simpan Testimonial"}
+          {success ? (
+            <><CheckCircle2 className="w-4 h-4" /> Tersimpan!</>
+          ) : isSaving ? (
+            <><Loader2 className="w-4 h-4 animate-spin" /> Menyimpan...</>
+          ) : (
+            <><Save className="w-4 h-4" /> {isEdit ? "Simpan Perubahan" : "Simpan Testimoni"}</>
+          )}
         </button>
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200 font-medium">
+        <div className="flex items-center gap-2.5 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-400">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="space-y-6">
-          <ImageUpload
-            label="Foto Klien"
-            value={formData.image_url}
-            onChange={(url) => setFormData((prev) => ({ ...prev, image_url: url }))}
-            onRemove={() => setFormData((prev) => ({ ...prev, image_url: "" }))}
-          />
+      {/* Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-4 items-start">
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Rating (Bintang)</label>
-            <input
-              type="number"
-              name="rating"
-              min="1"
-              max="5"
-              value={formData.rating}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+        {/* Left */}
+        <div className="flex flex-col gap-4">
+          <Panel title="Foto klien">
+            <ImageUpload
+              label=""
+              value={formData.image_url}
+              onChange={(url) => setFormData((p) => ({ ...p, image_url: url }))}
+              onRemove={() => setFormData((p) => ({ ...p, image_url: "" }))}
             />
-          </div>
-          
-          <div className="pt-2">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <div className="relative flex items-center">
-                <input
-                  type="checkbox"
-                  name="is_featured"
-                  checked={formData.is_featured}
-                  onChange={handleChange}
-                  className="w-5 h-5 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500"
-                />
+          </Panel>
+
+          <Panel title="Pengaturan">
+            <Field label="Rating" hint="Nilai 1 sampai 5">
+              <div className="flex items-center gap-1.5 mb-1">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setFormData((p) => ({ ...p, rating: i + 1 }))}
+                    className="p-0.5 transition-transform hover:scale-110"
+                  >
+                    <Star
+                      className={`w-5 h-5 ${
+                        i < formData.rating
+                          ? "fill-amber-400 text-amber-400"
+                          : "text-slate-200 dark:text-slate-600"
+                      }`}
+                    />
+                  </button>
+                ))}
+                <span className="text-xs text-slate-400 ml-1">{formData.rating}/5</span>
               </div>
+            </Field>
+
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="is_featured"
+                checked={formData.is_featured}
+                onChange={handleChange}
+                className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
+              />
               <div>
-                <span className="block text-sm font-semibold text-slate-700">Tampilkan di Homepage</span>
+                <span className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  Tampilkan di homepage
+                </span>
+                <span className="block text-[11px] text-slate-400 mt-0.5">
+                  Centang untuk menampilkan sebagai featured
+                </span>
               </div>
             </label>
-          </div>
+          </Panel>
         </div>
 
-        <div className="col-span-2 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="md:col-span-2">
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Nama Klien</label>
+        {/* Right */}
+        <Panel title="Informasi & ulasan klien">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Field label="Nama klien" required>
               <input
                 required
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="Misal: John Doe"
+                className={inputCls}
+                placeholder="John Doe"
               />
-            </div>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Jabatan & Perusahaan (Opsional)</label>
-            <input
-              type="text"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Direktur Operasional PT Sinar Mas"
-            />
+            </Field>
+            <Field label="Jabatan & perusahaan" hint="Opsional">
+              <input
+                type="text"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className={inputCls}
+                placeholder="Direktur PT Sinar Mas"
+              />
+            </Field>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Teks Testimonial</label>
+          <Field label="Teks testimoni" required>
             <textarea
               required
               name="content"
               value={formData.content}
               onChange={handleChange}
-              rows={6}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              rows={8}
+              className={`${inputCls} resize-y leading-relaxed`}
               placeholder="Sangat puas dengan layanan yang diberikan..."
             />
-          </div>
-        </div>
+          </Field>
+        </Panel>
+
       </div>
     </form>
   );

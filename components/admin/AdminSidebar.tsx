@@ -26,7 +26,8 @@ const menuGroups = [
     items: [
       { href: "/admin", label: "Overview", icon: LayoutDashboard },
       { href: "/admin/products", label: "Produk & Alat Berat", icon: Box },
-    ],
+      { href: "/admin/categories", label: "Kategori Produk", icon: Target }, // Menambahkan Kategori
+    ]
   },
   {
     title: "Konten Website",

@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Trash2, Loader2 } from "lucide-react";
-import { deletePartner } from "./actions";
+import { deletePartner } from "@/lib/actions/partner-actions";
 
 export function DeletePartnerButton({ id, name }: { id: string, name: string }) {
   const [isPending, startTransition] = useTransition();

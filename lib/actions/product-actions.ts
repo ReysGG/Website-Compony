@@ -44,7 +44,7 @@ export async function createProduct(data: any) {
         slug,
         description: data.description,
         image_url: data.image_url,
-        category: data.category,
+        category_id: data.category_id, // Menggunakan relasi
         order_index: parseInt(data.order_index) || 0,
         features: features,
         specifications: specifications,
@@ -72,7 +72,7 @@ export async function updateProduct(id: string, data: any) {
         title: data.title,
         description: data.description,
         image_url: data.image_url,
-        category: data.category,
+        category_id: data.category_id, // Menggunakan relasi
         order_index: parseInt(data.order_index) || 0,
         features: features,
         specifications: specifications,

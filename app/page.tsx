@@ -11,6 +11,10 @@ import { Stats } from "@/components/stats";
 import { Partnership } from "@/components/partnership";
 import { Satisfaction } from "@/components/satisfaction";
 
+// Cache halaman publik selama 1 jam.
+// Akan di-refresh otomatis setelah admin menyimpan data via server actions (revalidatePath).
+export const revalidate = 3600;
+
 export default async function Home() {
   const { sessionClaims } = await auth();
   const isAdmin = (sessionClaims?.metadata as any)?.role === 'admin';

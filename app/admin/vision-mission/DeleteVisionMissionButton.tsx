@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Trash2, Loader2 } from "lucide-react";
-import { deleteVisionMission } from "./actions";
+import { deleteVisionMission } from "@/lib/actions/vision-mission-actions";
 
 export function DeleteVisionMissionButton({ id, text }: { id: string, text: string }) {
   const [isPending, startTransition] = useTransition();

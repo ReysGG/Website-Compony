@@ -3,13 +3,63 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { createPartner, updatePartner } from "./actions";
-import { Loader2, Save, ArrowLeft } from "lucide-react";
+import { createPartner, updatePartner } from "@/lib/actions/partner-actions";
+import { Loader2, Save, ArrowLeft, CheckCircle2, AlertCircle, Info } from "lucide-react";
 import Link from "next/link";
+import { partners as PartnerType } from "@prisma/client";
 
-export function PartnerForm({ initialData }: { initialData?: any }) {
+const inputCls =
+  "w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition";
+
+function Field({
+  label,
+  hint,
+  required,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </label>
+      {children}
+      {hint && <p className="text-[11px] text-slate-400">{hint}</p>}
+    </div>
+  );
+}
+
+function Panel({
+  title,
+  action,
+  children,
+}: {
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-700">
+        <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+          {title}
+        </span>
+        {action}
+      </div>
+      <div className="p-5 flex flex-col gap-4">{children}</div>
+    </div>
+  );
+}
+
+export function PartnerForm({ initialData }: { initialData?: PartnerType }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const isEdit = !!initialData?.id;
@@ -28,91 +78,128 @@ export function PartnerForm({ initialData }: { initialData?: any }) {
     e.preventDefault();
     setIsSaving(true);
     setError("");
+    setSuccess(false);
 
     try {
-      let res;
-      if (isEdit) {
-        res = await updatePartner(initialData.id, formData);
-      } else {
-        res = await createPartner(formData);
-      }
+      const res = isEdit
+        ? await updatePartner(initialData!.id, formData)
+        : await createPartner(formData);
 
       if (res.success) {
-        router.push("/admin/partners");
-        router.refresh();
+        setSuccess(true);
+        setTimeout(() => {
+          router.push("/admin/partners");
+          router.refresh();
+        }, 800);
       } else {
-        setError(res.error || "Gagal menyimpan data mitra");
+        setError(res.error || "Gagal menyimpan data mitra.");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    } catch (err: any) {
-      setError("Terjadi kesalahan sistem");
+    } catch {
+      setError("Terjadi kesalahan sistem. Silakan coba lagi.");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-8">
-      <div className="flex items-center justify-between border-b border-slate-100 pb-6">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/partners" className="p-2 hover:bg-slate-100 rounded-full transition text-slate-500">
-            <ArrowLeft className="w-5 h-5" />
+    <form onSubmit={onSubmit} className="space-y-6">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/partners"
+            className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-600 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex-shrink-0"
+          >
+            <ArrowLeft className="w-4 h-4" />
           </Link>
-          <h2 className="text-xl font-bold text-slate-800">
-            {isEdit ? "Edit Mitra / Partner" : "Tambah Mitra Baru"}
-          </h2>
+          <div>
+            <nav className="text-[11px] uppercase tracking-widest text-slate-400 font-medium mb-1">
+              Admin / Mitra /{" "}
+              <span className="text-slate-700 dark:text-slate-200">
+                {isEdit ? "Edit" : "Tambah"}
+              </span>
+            </nav>
+            <h1 className="text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+              {isEdit ? "Edit Mitra" : "Tambah Mitra Baru"}
+            </h1>
+          </div>
         </div>
+
         <button
           type="submit"
-          disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-[#2563eb] text-white rounded-lg font-bold hover:bg-blue-700 transition"
+          disabled={isSaving || success}
+          className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all self-start sm:self-auto flex-shrink-0 active:scale-95 disabled:opacity-70 ${
+            success
+              ? "bg-emerald-600 text-white"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
         >
-          {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? "Simpan Perubahan" : "Simpan Mitra"}
+          {success ? (
+            <><CheckCircle2 className="w-4 h-4" /> Tersimpan!</>
+          ) : isSaving ? (
+            <><Loader2 className="w-4 h-4 animate-spin" /> Menyimpan...</>
+          ) : (
+            <><Save className="w-4 h-4" /> {isEdit ? "Simpan Perubahan" : "Simpan Mitra"}</>
+          )}
         </button>
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200 font-medium">
+        <div className="flex items-center gap-2.5 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-400">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <ImageUpload
-            label="Logo Mitra (Transparan disarankan)"
-            value={formData.logo_url}
-            onChange={(url) => setFormData((prev) => ({ ...prev, logo_url: url }))}
-            onRemove={() => setFormData((prev) => ({ ...prev, logo_url: "" }))}
-          />
-        </div>
+      {/* Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-4 items-start">
 
-        <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Nama Perusahaan / Merek</label>
+        {/* Left */}
+        <Panel title="Logo mitra">
+          <ImageUpload
+            label=""
+            value={formData.logo_url}
+            onChange={(url) => setFormData((p) => ({ ...p, logo_url: url }))}
+            onRemove={() => setFormData((p) => ({ ...p, logo_url: "" }))}
+          />
+          <div className="flex items-start gap-2">
+            <Info className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              Disarankan format PNG transparan agar logo tampil bersih di semua background.
+            </p>
+          </div>
+        </Panel>
+
+        {/* Right */}
+        <Panel title="Informasi mitra">
+          <Field label="Nama perusahaan / merek" required>
             <input
               required
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+              className={inputCls}
               placeholder="PT Komatsu Indonesia"
             />
-          </div>
-          
-          <div>
-             <label className="block text-sm font-semibold text-slate-700 mb-2">Urutan (Order Index)</label>
-              <input
-                type="number"
-                name="order_index"
-                value={formData.order_index}
-                onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="0"
-              />
-          </div>
-        </div>
+          </Field>
+          <Field label="Urutan tampil" hint="Angka kecil tampil lebih awal">
+            <input
+              type="number"
+              name="order_index"
+              value={formData.order_index}
+              onChange={handleChange}
+              min={0}
+              className={inputCls}
+              placeholder="0"
+            />
+          </Field>
+        </Panel>
+
       </div>
     </form>
   );
