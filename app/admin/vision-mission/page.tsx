@@ -94,7 +94,7 @@ async function VisionMissionTable() {
                       <Link href={`/admin/vision-mission/${entry.id}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-colors">
                         <Eye className="w-3.5 h-3.5" /> Edit
                       </Link>
-                      <DeleteVisionMissionButton id={entry.id} />
+                      <DeleteVisionMissionButton id={entry.id} text={entry.content?.slice(0, 50) ?? ""} />
                     </div>
                   </td>
                 </tr>
