@@ -3,6 +3,8 @@ import { Footer } from "@/components/footer";
 import { History } from "@/components/history";
 import { VisiMisi } from "@/components/visi-misi";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Tentang Kami | PT Soka Utama Niaga",
   description: "Sejarah dan Visi Misi PT Soka Utama Niaga",

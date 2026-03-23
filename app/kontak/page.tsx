@@ -3,6 +3,8 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Kontak | PT Soka Utama Niaga",
   description: "Informasi kontak dan lokasi PT Soka Utama Niaga",

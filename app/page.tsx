@@ -11,9 +11,9 @@ import { Stats } from "@/components/stats";
 import { Partnership } from "@/components/partnership";
 import { Satisfaction } from "@/components/satisfaction";
 
-// Cache halaman publik selama 1 jam.
-// Akan di-refresh otomatis setelah admin menyimpan data via server actions (revalidatePath).
-export const revalidate = 3600;
+// force-dynamic: halaman ini fetch dari DB, tidak bisa di-prerender saat build.
+// Vercel build machine tidak bisa reach Supabase — render dilakukan saat runtime.
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const { sessionClaims } = await auth();

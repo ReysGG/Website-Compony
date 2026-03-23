@@ -2,6 +2,8 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Products } from "@/components/products";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Produk | PT Soka Utama Niaga",
   description: "Katalog Alat Berat PT Soka Utama Niaga",
