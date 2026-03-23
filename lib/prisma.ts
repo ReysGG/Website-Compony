@@ -9,19 +9,21 @@ const prismaClientSingleton = () => {
     return {} as PrismaClient;
   }
 
-  const pool = new Pool({ 
+  const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    // Tambahkan pengaturan pool untuk Supabase jika perlu
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    // Serverless: setiap function invocation isolated → pool kecil
+    // Free tier Supabase limit ~60 connections
+    max: 2,
+    idleTimeoutMillis: 10000,
+    connectionTimeoutMillis: 5000,
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
   });
-  
+
   const adapter = new PrismaPg(pool);
-  
-  return new PrismaClient({ 
+
+  return new PrismaClient({
     adapter,
-    log: ["query", "error", "warn"] 
+    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
   });
 };
 
