@@ -14,8 +14,8 @@ const prismaClientSingleton = () => {
     // Transaction Pooler: tiap query pakai 1 koneksi lalu langsung dilepas
     // max:1 cukup untuk serverless — tidak perlu hold multiple connections
     max: 1,
-    idleTimeoutMillis: 10000,
-    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 30000,         // Biarkan idle lebih lama agar tidak putus-nyambung terus
+    connectionTimeoutMillis: 15000,   // Berikan waktu 15 detik kalau Supabase sedang "bangun" (Cold Start)
     ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
   });
 
